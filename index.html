@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nomad Yoga Theme Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap">
+<style>
+:root{color-scheme:light;--ground:#FFFFFF;--surface:#FFFFFF;--surface-2:#FFF2F8;--ink:#4A2036;--ink-soft:#8A4A66;--line:#FFD3E9;--pink:#FFABD3;--pink-deep:#FF7FBB;--error:#C23E63;--ok:#B23E7B;}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{background:var(--ground);color:var(--ink);font-family:'Poppins',-apple-system,BlinkMacSystemFont,sans-serif;}
+img{max-width:100%;}
+#app{max-width:640px;margin:0 auto;padding:40px 20px 64px;}
+.site-header{padding-bottom:22px;text-align:center;}
+.brand-logo{width:170px;max-width:55%;height:auto;margin:0 auto 10px;display:block;}
+h1{margin:0 0 10px;font-weight:800;font-size:clamp(1.5rem,4.5vw,2.1rem);text-wrap:balance;}
+.sub{margin:0 auto;max-width:46ch;color:var(--ink-soft);font-weight:500;line-height:1.55;font-size:0.96rem;}
+.sub strong{color:var(--pink-deep);font-weight:700;}
+.panel{background:var(--surface);border-radius:20px;padding:24px;margin:26px 0 32px;box-shadow:0 10px 26px -14px rgba(255,127,187,0.55);}
+.panel h2{margin:0 0 16px;font-weight:700;font-size:1.05rem;text-align:center;}
+label{display:block;font-size:0.85rem;font-weight:700;margin:0 0 8px;}
+input[type="text"],input[type="email"],input[type="password"]{width:100%;border:2px solid var(--line);border-radius:10px;background:var(--surface-2);color:var(--ink);font-family:'Poppins',sans-serif;font-weight:600;font-size:1rem;padding:12px 14px;transition:border-color .15s ease;}
+input::placeholder{color:var(--ink-soft);font-weight:500;opacity:0.7;}
+input:focus-visible{outline:2px solid var(--pink-deep);outline-offset:1px;border-color:var(--pink-deep);}
+.submit-btn{margin-top:16px;width:100%;padding:13px 16px;border:none;border-radius:10px;background:var(--pink);color:var(--ink);font-family:'Poppins',sans-serif;font-weight:700;font-size:0.98rem;cursor:pointer;transition:background .15s ease,transform .15s ease,box-shadow .15s ease;}
+.submit-btn:hover{background:var(--pink-deep);transform:translateY(-2px);box-shadow:0 10px 20px -8px rgba(255,127,187,0.6);}
+.submit-btn:active{transform:translateY(0) scale(0.97);}
+.submit-btn:focus-visible{outline:2px solid var(--pink-deep);outline-offset:2px;}
+.submit-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
+.submit-btn.pulse-success{animation:pulseRing .6s ease-out;}
+.status{min-height:1.1em;margin:10px 0 0;font-size:0.82rem;font-weight:600;text-align:center;color:var(--ink-soft);}
+.status.error{color:var(--error);}
+.list-panel h2{margin:0 0 16px;font-weight:700;font-size:1.05rem;}
+.list-panel h2 .count{font-weight:500;color:var(--ink-soft);font-size:0.85rem;margin-left:4px;}
+.list-sub{margin:-6px 0 16px;color:var(--pink-deep);font-weight:600;font-size:0.88rem;}
+.requests{list-style:none;margin:0;padding:0;}
+.request{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:2px solid var(--surface-2);}
+.request:last-child{border-bottom:none;}
+.request.is-new{animation:popIn .6s ease;}
+.vote-btn{position:relative;flex:none;width:52px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;border:2px solid var(--line);border-radius:10px;background:var(--surface-2);color:var(--ink);cursor:pointer;font-family:'Poppins',sans-serif;font-weight:700;transition:transform .12s ease,background .15s ease,border-color .15s ease;}
+.vote-btn:hover{border-color:var(--pink-deep);transform:translateY(-2px);}
+.vote-btn:active{transform:scale(0.94);}
+.vote-btn:focus-visible{outline:2px solid var(--pink-deep);outline-offset:2px;}
+.vote-btn.voted{background:var(--pink);border-color:var(--pink);}
+.vote-arrow{font-size:0.75rem;line-height:1;color:var(--pink-deep);}
+.vote-count{font-size:0.95rem;line-height:1;font-variant-numeric:tabular-nums;}
+.request-body{min-width:0;flex:1;}
+.request-theme{margin:0;font-weight:700;font-size:1rem;overflow-wrap:anywhere;}
+.request-meta{margin:2px 0 0;font-size:0.76rem;font-weight:500;color:var(--ink-soft);}
+.delete-btn{flex:none;align-self:flex-start;margin-top:2px;padding:6px 8px;border:none;border-radius:8px;background:none;color:var(--ink-soft);font-family:'Poppins',sans-serif;font-weight:700;font-size:0.7rem;letter-spacing:0.03em;text-transform:uppercase;cursor:pointer;transition:color .15s ease,background .15s ease;}
+.delete-btn:hover{color:var(--error);background:var(--surface-2);}
+.delete-btn:focus-visible{outline:2px solid var(--pink-deep);outline-offset:2px;}
+.confirm-delete{display:flex;align-items:center;gap:6px;flex:none;}
+.confirm-yes{padding:6px 10px;border:none;border-radius:8px;background:var(--error);color:#FFFFFF;font-family:'Poppins',sans-serif;font-weight:700;font-size:0.68rem;letter-spacing:0.02em;text-transform:uppercase;cursor:pointer;white-space:nowrap;}
+.confirm-yes:hover{opacity:0.85;}
+.confirm-no{padding:6px 10px;border:none;border-radius:8px;background:var(--surface-2);color:var(--ink-soft);font-family:'Poppins',sans-serif;font-weight:700;font-size:0.68rem;letter-spacing:0.02em;text-transform:uppercase;cursor:pointer;white-space:nowrap;}
+.confirm-no:hover{background:var(--line);}
+.empty{border:2px dashed var(--line);border-radius:14px;padding:26px 20px;text-align:center;color:var(--ink-soft);font-weight:600;font-size:0.95rem;}
+.rsvp-panel{text-align:center;}
+.rsvp-panel h2{font-size:1.5rem;font-weight:800;}
+.rsvp-photo{width:200px;max-width:100%;height:auto;display:block;margin:0 auto 18px;border-radius:14px;box-shadow:0 8px 20px -10px rgba(74,32,54,0.35);}
+.rsvp-details{margin:0 0 18px;color:var(--ink-soft);font-weight:600;font-size:0.92rem;line-height:1.6;}
+.rsvp-btn{display:inline-block;padding:13px 32px;border-radius:10px;background:var(--pink);color:var(--ink);font-family:'Poppins',sans-serif;font-weight:700;font-size:0.98rem;text-decoration:none;transition:background .15s ease,transform .15s ease,box-shadow .15s ease;}
+.rsvp-btn:hover{background:var(--pink-deep);transform:translateY(-2px);box-shadow:0 10px 20px -8px rgba(255,127,187,0.6);}
+.rsvp-btn:active{transform:translateY(0) scale(0.97);}
+.rsvp-btn:focus-visible{outline:2px solid var(--pink-deep);outline-offset:2px;}
+.owner-area{margin-top:8px;text-align:center;font-size:0.72rem;}
+.owner-link{background:none;border:none;color:var(--ink-soft);opacity:0.6;font-family:'Poppins',sans-serif;font-weight:600;font-size:0.72rem;cursor:pointer;text-decoration:underline;}
+.owner-link:hover{opacity:1;}
+#owner-form{max-width:280px;margin:12px auto 0;display:grid;gap:8px;}
+#owner-form[hidden]{display:none;}
+#owner-form .submit-btn{margin-top:4px;}
+.confetti-layer{position:fixed;inset:0;pointer-events:none;z-index:9999;}
+.confetti-piece{position:fixed;font-size:1.15rem;transform:translate(-50%,-50%);animation:confettiPop .8s ease-out forwards;}
+.plus-one-float{position:fixed;transform:translate(-50%,-50%);font-weight:800;font-size:0.8rem;color:var(--pink-deep);pointer-events:none;z-index:9999;animation:floatUp .65s ease-out forwards;}
+@keyframes pulseRing{0%{box-shadow:0 0 0 0 rgba(255,127,187,0.55);}100%{box-shadow:0 0 0 16px rgba(255,127,187,0);}}
+@keyframes popIn{0%{background-color:rgba(255,171,211,0.35);}100%{background-color:transparent;}}
+@keyframes confettiPop{0%{opacity:1;transform:translate(-50%,-50%) scale(0.6);}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1.1);}}
+@keyframes floatUp{0%{opacity:1;transform:translate(-50%,-50%);}100%{opacity:0;transform:translate(-50%,-160%);}}
+@media (prefers-reduced-motion: reduce){.vote-btn,.submit-btn,.request.is-new,.rsvp-btn{transition:none;animation:none;}}
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="site-header">
+    <img class="brand-logo" src="assets/logo.png" alt="Nomad Yoga">
+    <h1>We want &#10024;YOU&#10024; to pick our next class theme at the Nomad Yoga Studio! &#129655;</h1>
+    <p class="sub">Tell us your favorite artist, genre, decade, trend &mdash; anything goes. <strong>Submit</strong> as many as you like, then <strong>upvote</strong> the ideas you love!</p>
+  </header>
+
+  <section class="panel form-panel">
+    <form id="theme-form" autocomplete="off">
+      <label for="f-theme">Your theme idea</label>
+      <input id="f-theme" name="theme" type="text" maxlength="60" placeholder="Beyonc&eacute;, Coachella, Y2K&hellip;" required>
+      <button type="submit" class="submit-btn" id="submit-btn">Submit anonymously</button>
+      <p class="status" id="form-status" role="status"></p>
+    </form>
+  </section>
+
+  <section class="list-panel">
+    <h2>Requests <span class="count" id="count">0</span></h2>
+    <p class="list-sub">See one you love? Tap the arrow to upvote it! &#10024;</p>
+    <div id="list"><p class="empty">Loading&hellip;</p></div>
+  </section>
+
+  <section class="panel rsvp-panel">
+    <h2>Join us on the rooftop!</h2>
+    <img class="rsvp-photo" src="assets/hero.jpg" alt="Nomad Yoga community at a themed rooftop class">
+    <p class="rsvp-details">Every Monday &amp; Wednesday at sunset<br>VIB Rooftop &middot; Tempe, AZ</p>
+    <a class="rsvp-btn" href="https://sweatpals.com/host/nomadyoga" target="_blank" rel="noopener noreferrer">RSVP HERE</a>
+  </section>
+
+  <div class="owner-area">
+    <button class="owner-link" id="owner-toggle" type="button">Owner login</button>
+    <form id="owner-form" hidden>
+      <input id="o-email" type="email" placeholder="Email" autocomplete="username" required>
+      <input id="o-pass" type="password" placeholder="Password" autocomplete="current-password" required>
+      <button type="submit" class="submit-btn">Sign in</button>
+      <p class="status" id="owner-status" role="status"></p>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script>
+(function(){
+  var cfg = window.NOMAD_CONFIG;
+  var sb = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY);
+
+  var DEVICE_KEY = 'nomad_board_device_v1';
+  var MINE_KEY = 'nomad_board_mine_v1';
+  var VOTED_KEY = 'nomad_board_voted_v1';
+
+  function readSet(k){ try { return new Set(JSON.parse(localStorage.getItem(k) || '[]')); } catch(e){ return new Set(); } }
+  function writeSet(k, s){ try { localStorage.setItem(k, JSON.stringify(Array.from(s))); } catch(e){} }
+  function uuid(){
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return 'd' + Date.now().toString(36) + Math.random().toString(36).slice(2, 12);
+  }
+  function getDevice(){
+    try {
+      var d = localStorage.getItem(DEVICE_KEY);
+      if (!d){ d = uuid(); localStorage.setItem(DEVICE_KEY, d); }
+      return d;
+    } catch(e){ return window.__memDevice || (window.__memDevice = uuid()); }
+  }
+
+  var device = getDevice();
+  var mine = readSet(MINE_KEY);
+  var voted = readSet(VOTED_KEY);
+  var rows = [];
+  var isOwner = false;
+  var pendingDeleteId = null;
+  var justAddedId = null;
+  var busy = false;
+
+  var listEl = document.getElementById('list');
+  var countEl = document.getElementById('count');
+  var statusEl = document.getElementById('form-status');
+  var form = document.getElementById('theme-form');
+  var input = document.getElementById('f-theme');
+  var submitBtn = document.getElementById('submit-btn');
+
+  function esc(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+  function timeAgo(ts){
+    var min = Math.floor((Date.now() - new Date(ts).getTime()) / 60000);
+    if (min < 1) return 'just now';
+    if (min < 60) return min + 'm ago';
+    var hr = Math.floor(min / 60);
+    if (hr < 24) return hr + 'h ago';
+    var day = Math.floor(hr / 24);
+    if (day < 30) return day + 'd ago';
+    return new Date(ts).toLocaleDateString();
+  }
+  function reduced(){
+    try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch(e){ return false; }
+  }
+  function setStatus(msg, kind){
+    statusEl.textContent = msg || '';
+    statusEl.className = 'status' + (kind ? ' ' + kind : '');
+  }
+
+  function celebrate(el){
+    if (!el || reduced()) return;
+    var r = el.getBoundingClientRect();
+    var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    var glyphs = ['✨', '🩷', '✨', '🩷', '✨', '🩷'];
+    var layer = document.createElement('div');
+    layer.className = 'confetti-layer';
+    glyphs.forEach(function(g, i){
+      var a = (i / glyphs.length) * Math.PI * 2;
+      var p = document.createElement('span');
+      p.className = 'confetti-piece';
+      p.textContent = g;
+      p.style.left = cx + 'px';
+      p.style.top = cy + 'px';
+      p.style.setProperty('--dx', Math.round(Math.cos(a) * 60) + 'px');
+      p.style.setProperty('--dy', Math.round(Math.sin(a) * 60 - 40) + 'px');
+      layer.appendChild(p);
+    });
+    document.body.appendChild(layer);
+    setTimeout(function(){ layer.remove(); }, 900);
+  }
+  function floatChange(rect, text){
+    if (!rect || reduced()) return;
+    var el = document.createElement('div');
+    el.className = 'plus-one-float';
+    el.textContent = text;
+    el.style.left = (rect.left + rect.width / 2) + 'px';
+    el.style.top = rect.top + 'px';
+    document.body.appendChild(el);
+    setTimeout(function(){ el.remove(); }, 650);
+  }
+
+  function renderRow(e){
+    var hasVoted = voted.has(e.id);
+    var canDelete = isOwner || mine.has(e.id);
+    var del = '';
+    if (canDelete){
+      del = pendingDeleteId === e.id
+        ? '<span class="confirm-delete"><button class="confirm-yes" data-act="confirm" data-id="' + e.id + '">Yes, delete</button><button class="confirm-no" data-act="cancel" data-id="' + e.id + '">Cancel</button></span>'
+        : '<button class="delete-btn" data-act="delete" data-id="' + e.id + '" aria-label="Delete ' + esc(e.theme) + '">Delete</button>';
+    }
+    return '<li class="request' + (justAddedId === e.id ? ' is-new' : '') + '">' +
+      '<button class="vote-btn' + (hasVoted ? ' voted' : '') + '" data-act="vote" data-id="' + e.id + '" aria-pressed="' + hasVoted + '" aria-label="' + (hasVoted ? 'Remove your upvote for ' : 'Upvote ') + esc(e.theme) + '">' +
+        '<span class="vote-arrow" aria-hidden="true">&#9650;</span><span class="vote-count">' + e.votes + '</span></button>' +
+      '<div class="request-body"><p class="request-theme">' + esc(e.theme) + '</p><p class="request-meta">' + timeAgo(e.created_at) + '</p></div>' +
+      del + '</li>';
+  }
+
+  function render(){
+    var sorted = rows.slice().sort(function(a, b){
+      return b.votes - a.votes || new Date(a.created_at) - new Date(b.created_at);
+    });
+    countEl.textContent = sorted.length;
+    listEl.innerHTML = sorted.length
+      ? '<ol class="requests">' + sorted.map(renderRow).join('') + '</ol>'
+      : '<p class="empty">No requests yet &mdash; be the first to suggest a theme.</p>';
+    justAddedId = null;
+  }
+
+  function load(){
+    return Promise.all([
+      sb.from('request_board').select('*'),
+      sb.rpc('my_votes', { p_device: device })
+    ]).then(function(res){
+      if (res[0].error) throw res[0].error;
+      rows = res[0].data || [];
+      if (!res[1].error && Array.isArray(res[1].data)){
+        voted = new Set(res[1].data);
+        writeSet(VOTED_KEY, voted);
+      }
+      render();
+    }).catch(function(){
+      if (!rows.length) listEl.innerHTML = '<p class="empty">Couldn’t load requests. Refresh to try again.</p>';
+    });
+  }
+
+  form.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var theme = input.value.trim();
+    if (!theme || busy) return;
+    busy = true;
+    submitBtn.disabled = true;
+    setStatus('Submitting…');
+    sb.rpc('add_request', { p_theme: theme, p_device: device }).then(function(res){
+      if (res.error) throw res.error;
+      var id = res.data;
+      mine.add(id); writeSet(MINE_KEY, mine);
+      voted.add(id); writeSet(VOTED_KEY, voted);
+      justAddedId = id;
+      input.value = '';
+      setStatus('Submitted! Thank you 🩷');
+      celebrate(submitBtn);
+      submitBtn.classList.add('pulse-success');
+      setTimeout(function(){ submitBtn.classList.remove('pulse-success'); }, 700);
+      return load();
+    }).catch(function(){
+      setStatus('Could not save — please try again.', 'error');
+    }).then(function(){
+      busy = false;
+      submitBtn.disabled = false;
+      input.focus();
+    });
+  });
+
+  listEl.addEventListener('click', function(ev){
+    var btn = ev.target.closest('[data-act]');
+    if (!btn || busy) return;
+    var act = btn.getAttribute('data-act');
+    var id = btn.getAttribute('data-id');
+
+    if (act === 'vote'){
+      var rect = btn.getBoundingClientRect();
+      busy = true;
+      sb.rpc('toggle_vote', { p_request: id, p_device: device }).then(function(res){
+        if (res.error) throw res.error;
+        if (res.data) voted.add(id); else voted.delete(id);
+        writeSet(VOTED_KEY, voted);
+        floatChange(rect, res.data ? '+1' : '−1');
+        return load();
+      }).catch(function(){ setStatus('Could not save your vote — try again.', 'error'); })
+        .then(function(){ busy = false; });
+    } else if (act === 'delete'){
+      pendingDeleteId = id; render();
+    } else if (act === 'cancel'){
+      pendingDeleteId = null; render();
+    } else if (act === 'confirm'){
+      pendingDeleteId = null;
+      busy = true;
+      var call = isOwner
+        ? sb.rpc('admin_delete_request', { p_request: id })
+        : sb.rpc('delete_own_request', { p_request: id, p_device: device });
+      call.then(function(res){
+        if (res.error) throw res.error;
+        mine.delete(id); writeSet(MINE_KEY, mine);
+        voted.delete(id); writeSet(VOTED_KEY, voted);
+        return load();
+      }).catch(function(){ setStatus('Could not delete — try again.', 'error'); render(); })
+        .then(function(){ busy = false; });
+    }
+  });
+
+  // Owner login (only you have a Supabase user; the database enforces it too)
+  var ownerToggle = document.getElementById('owner-toggle');
+  var ownerForm = document.getElementById('owner-form');
+  var ownerStatus = document.getElementById('owner-status');
+
+  function applySession(session){
+    var email = session && session.user && session.user.email;
+    isOwner = !!email && email.toLowerCase() === String(cfg.OWNER_EMAIL).toLowerCase();
+    ownerToggle.textContent = isOwner ? 'Sign out' : 'Owner login';
+    if (isOwner) ownerForm.hidden = true;
+    render();
+  }
+  ownerToggle.addEventListener('click', function(){
+    if (isOwner){ sb.auth.signOut(); return; }
+    ownerForm.hidden = !ownerForm.hidden;
+  });
+  ownerForm.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    ownerStatus.textContent = 'Signing in…';
+    sb.auth.signInWithPassword({
+      email: document.getElementById('o-email').value.trim(),
+      password: document.getElementById('o-pass').value
+    }).then(function(res){
+      ownerStatus.textContent = res.error ? 'Sign-in failed.' : '';
+      ownerStatus.className = 'status' + (res.error ? ' error' : '');
+    });
+  });
+  sb.auth.onAuthStateChange(function(_event, session){ applySession(session); });
+  sb.auth.getSession().then(function(r){ applySession(r.data && r.data.session); });
+
+  load();
+  setInterval(function(){ if (!busy && !pendingDeleteId && document.visibilityState === 'visible') load(); }, 20000);
+  input.focus();
+})();
+</script>
+</body>
+</html>
